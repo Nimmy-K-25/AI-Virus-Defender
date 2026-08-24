@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI Virus Defender - a 60-second cybersecurity awareness game created for GameCraft 2026.">
+  <title>AI Virus Defender | GameCraft 2026</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#gameArea">Skip to game area</a>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">GAMECRAFT 2026</p>
+        <h1>AI Virus Defender</h1>
+      </div>
+      <div class="header-actions">
+        <button id="instructionsBtn" class="icon-btn" type="button" aria-label="Open instructions">? Instructions</button>
+        <button id="muteBtn" class="icon-btn" type="button" aria-pressed="false" aria-label="Mute sound">🔊 Sound</button>
+      </div>
+    </header>
+
+    <section class="hud" aria-label="Game status">
+      <div class="hud-card"><span>Defender</span><strong id="playerDisplay">—</strong></div>
+      <div class="hud-card"><span>Score</span><strong id="scoreDisplay" aria-live="polite">0</strong></div>
+      <div class="hud-card"><span>Time</span><strong id="timeDisplay" aria-live="polite">60</strong></div>
+      <div class="hud-card"><span>Combo</span><strong id="comboDisplay">x0</strong></div>
+      <div class="hud-card"><span>Core</span><strong id="coreDisplay">100%</strong></div>
+    </section>
+
+    <section id="gameArea" class="game-area" tabindex="-1" aria-label="Digital network defense zone">
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div id="messageLayer" class="message-layer" aria-live="polite"></div>
+      <div class="network-core" aria-label="Network core">
+        <span class="core-ring"></span><span class="core-icon">⬡</span><small>NETWORK CORE</small>
+      </div>
+      <div id="threatLayer" class="threat-layer"></div>
+      <div id="startOverlay" class="game-overlay">
+        <div class="overlay-card compact">
+          <span class="shield-logo" aria-hidden="true">🛡️</span>
+          <h2>Ready to defend?</h2>
+          <p>Stop threats before they reach the core. Leave safe files alone.</p>
+          <button id="startBtn" class="primary-btn" type="button">Start 60-Second Mission</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="legend" aria-label="Scoring legend">
+      <span><b class="dot virus"></b> Virus +10</span>
+      <span><b class="dot malware"></b> Malware +15</span>
+      <span><b class="dot phishing"></b> Phishing +12</span>
+      <span><b class="dot safe"></b> Safe file −20</span>
+      <span>🔥 Every 5-threat streak: +25</span>
+    </section>
+  </main>
+
+  <dialog id="welcomeDialog" class="modal" aria-labelledby="welcomeTitle">
+    <form id="nameForm" method="dialog" class="modal-card">
+      <span class="shield-logo" aria-hidden="true">🛡️</span>
+      <p class="eyebrow">CYBER DEFENSE MISSION</p>
+      <h2 id="welcomeTitle">Welcome, Defender</h2>
+      <p>Enter your name to initialize the secure network.</p>
+      <label for="playerName">Player name <span aria-hidden="true">*</span></label>
+      <input id="playerName" name="playerName" type="text" maxlength="24" autocomplete="name" required placeholder="Enter your name">
+      <p id="nameError" class="error" role="alert"></p>
+      <button class="primary-btn" type="submit">Continue</button>
+    </form>
+  </dialog>
+
+  <dialog id="instructionsDialog" class="modal" aria-labelledby="instructionsTitle">
+    <div class="modal-card wide">
+      <button class="close-btn" type="button" data-close="instructionsDialog" aria-label="Close instructions">×</button>
+      <p class="eyebrow">MISSION BRIEFING</p>
+      <h2 id="instructionsTitle">Protect the network for 60 seconds</h2>
+      <div class="instructions-grid">
+        <div><span>🦠</span><h3>Stop threats</h3><p>Click or focus and press Enter/Space on viruses, malware and phishing.</p></div>
+        <div><span>📄</span><h3>Protect safe files</h3><p>Do not click verified files. A mistake costs 20 points.</p></div>
+        <div><span>🔥</span><h3>Build a combo</h3><p>Five correct threat removals in a row award a 25-point bonus.</p></div>
+        <div><span>⬡</span><h3>Guard the core</h3><p>A missed threat damages the core by 10%. The mission still runs for the full 60 seconds.</p></div>
+      </div>
+      <h3>Scoring</h3>
+      <ul class="rules-list">
+        <li>Virus: +10</li><li>Malware: +15</li><li>Phishing: +12</li>
+        <li>Safe file clicked: −20</li><li>Threat missed: −5 and core −10%</li>
+      </ul>
+      <p class="tip">Tip: Objects include labels and symbols so you never need to rely on color alone.</p>
+      <button id="briefingDoneBtn" class="primary-btn" type="button">I Understand</button>
+    </div>
+  </dialog>
+
+  <dialog id="resultDialog" class="modal" aria-labelledby="resultTitle">
+    <div class="modal-card wide result-card">
+      <p class="eyebrow">MISSION COMPLETE</p>
+      <h2 id="resultTitle">Time’s up!</h2>
+      <p id="resultGreeting"></p>
+      <div class="final-score"><span>Final score</span><strong id="finalScore">0</strong></div>
+      <div class="result-stats">
+        <div><span>Threats stopped</span><strong id="stoppedStat">0</strong></div>
+        <div><span>Accuracy</span><strong id="accuracyStat">0%</strong></div>
+        <div><span>Best combo</span><strong id="bestComboStat">0</strong></div>
+        <div><span>Core integrity</span><strong id="coreStat">100%</strong></div>
+        <div><span>Personal best</span><strong id="personalBestStat">0</strong></div>
+        <div><span>Status</span><strong id="statusStat">Completed</strong></div>
+      </div>
+      <div class="result-actions">
+        <button id="replayBtn" class="primary-btn" type="button">Play Again</button>
+        <button id="leaderboardBtn" class="secondary-btn" type="button">Local Top 10</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="leaderboardDialog" class="modal" aria-labelledby="leaderboardTitle">
+    <div class="modal-card wide">
+      <button class="close-btn" type="button" data-close="leaderboardDialog" aria-label="Close leaderboard">×</button>
+      <p class="eyebrow">THIS DEVICE ONLY</p>
+      <h2 id="leaderboardTitle">Local Top 10</h2>
+      <p class="privacy-note">Stored only in this browser; this is not the official event leaderboard.</p>
+      <ol id="leaderboardList" class="leaderboard-list"></ol>
+      <button id="clearLeaderboardBtn" class="danger-btn" type="button">Clear Local Data</button>
+    </div>
+  </dialog>
+
+  <script src="js/game.js"></script>
+</body>
+</html>
